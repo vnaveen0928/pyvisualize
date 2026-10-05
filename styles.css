@@ -1,0 +1,96 @@
+/* PyVisualize custom styles — everything Tailwind's utility classes don't cover cleanly */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+html, body { height: 100%; }
+#root { min-height: 100%; }
+
+/* Thin, dark scrollbars everywhere */
+* { scrollbar-width: thin; scrollbar-color: #2d3a4f #0b0f16; }
+*::-webkit-scrollbar { width: 9px; height: 9px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: #2d3a4f; border-radius: 6px; }
+*::-webkit-scrollbar-thumb:hover { background: #3d4f6b; }
+
+code, pre, .font-mono { font-variant-ligatures: none; }
+
+/* Prism code block overrides to match the dark UI */
+pre[class*="language-"] {
+  background: #0d1420 !important;
+  border: 1px solid #1f2b3d;
+  border-radius: 0.65rem;
+  padding: 1rem 1.1rem !important;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin: 0 !important;
+}
+code[class*="language-"] {
+  font-family: '"JetBrains Mono"', monospace !important;
+  text-shadow: none !important;
+}
+:not(pre) > code[class*="language-"] {
+  background: #0d1420;
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.35rem;
+}
+
+/* Simple fade/slide transitions for panel + step content, no JS animation lib needed */
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-in { animation: fadeSlideIn 0.28s ease-out both; }
+
+@keyframes popIn {
+  0% { opacity: 0; transform: scale(0.85); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.animate-pop { animation: popIn 0.25s cubic-bezier(.2,.8,.2,1) both; }
+
+@keyframes floatUp {
+  0% { opacity: 0; transform: translateY(10px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.animate-float { animation: floatUp 0.3s ease-out both; }
+
+/* Diagram elements: transitions for step changes (position/highlight) */
+.diagram-node {
+  transition: transform 0.4s cubic-bezier(.4,0,.2,1), background-color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, opacity 0.35s ease;
+}
+.diagram-arrow { transition: opacity 0.3s ease, stroke 0.3s ease; }
+.diagram-fade-enter { animation: fadeSlideIn 0.3s ease-out both; }
+
+.glow-ring { box-shadow: 0 0 0 2px rgba(34,211,238,0.55), 0 0 18px rgba(34,211,238,0.25); }
+
+/* Sidebar tree */
+.tree-line { position: relative; }
+.tree-line::before {
+  content: '';
+  position: absolute;
+  left: -0.65rem;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #1f2b3d;
+}
+
+/* Progress bar shimmer */
+@keyframes shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: 200px 0; }
+}
+
+.pv-focus:focus-visible {
+  outline: 2px solid #22d3ee;
+  outline-offset: 2px;
+}
+
+textarea.code-editor {
+  font-family: '"JetBrains Mono"', monospace;
+  tab-size: 4;
+}
+
+/* Utility: dashed connector for backpack/closure diagram */
+.dashed-link {
+  border-top: 2px dashed #475569;
+}
